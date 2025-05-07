@@ -11,4 +11,6 @@ sealed class NavScreen(val route: String) {
     }
 
     object Cart: NavScreen("Cart")
+
+    object Checkout: NavScreen("Checkout")
 }

@@ -5,8 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.dirzaaulia.fakestore.model.Product
 import com.dirzaaulia.fakestore.repository.DatabaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,11 +15,10 @@ class CartViewModel @Inject constructor(
 
     val cart = databaseRepository.getAllProductInCart()
 
-    private val _count = MutableStateFlow(1)
-    val count = _count.asStateFlow()
-
-    fun setCount(value: Int) {
-        _count.value = value
+    fun updateProductToCart(product: Product) {
+        viewModelScope.launch {
+            databaseRepository.addProductToCart(product)
+        }
     }
 
     fun deleteProductFromCart(product: Product) {

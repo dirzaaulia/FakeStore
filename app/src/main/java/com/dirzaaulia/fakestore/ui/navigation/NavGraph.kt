@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.dirzaaulia.fakestore.ui.cart.Cart
+import com.dirzaaulia.fakestore.ui.checkout.Checkout
 import com.dirzaaulia.fakestore.ui.detail.Detail
 import com.dirzaaulia.fakestore.ui.home.Home
 import com.dirzaaulia.fakestore.ui.home.HomeViewModel
@@ -55,7 +56,15 @@ fun NavGraph(
             }
         }
         composable(NavScreen.Cart.route) {
-            Cart(navigateUp = actions.upPress)
+            Cart(
+                navigateUp = actions.upPress,
+                navigateToCheckout = actions.navigateToCheckout
+            )
+        }
+        composable(NavScreen.Checkout.route) {
+            Checkout(
+                navigateUp = actions.upPress
+            )
         }
     }
 }

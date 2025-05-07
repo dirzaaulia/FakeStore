@@ -18,5 +18,5 @@ data class Product(
     val category: String,
     @SerialName("image")
     val imageUrl: String,
-    val count: Int = 1
+    var count: Int = 1
 )

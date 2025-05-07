@@ -1,10 +1,9 @@
 package com.dirzaaulia.fakestore.ui.home
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,7 +20,7 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
@@ -44,9 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.dirzaaulia.fakestore.model.Product
 import com.dirzaaulia.fakestore.ui.common.CommonLoading
@@ -112,7 +109,10 @@ fun Home(
         },
     ) { innerPadding ->
         when (productsState.value) {
-            ResponseResult.Loading -> { CommonLoading() }
+            ResponseResult.Loading -> {
+                CommonLoading()
+            }
+
             is ResponseResult.Success -> {
                 Column(modifier = Modifier.padding(innerPadding)) {
                     categoriesState.value.success { categories ->
@@ -129,7 +129,10 @@ fun Home(
                         verticalItemSpacing = 8.dp,
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        items(products) { item ->
+                        items(
+                            items = products,
+                            key = { item -> item.id }
+                        ) { item ->
                             ProductItem(
                                 item = item,
                                 navigateToDetail = navigateToDetail
@@ -242,17 +245,26 @@ fun ProductItem(
                 contentDescription = item.description,
                 contentScale = ContentScale.FillBounds
             )
+            Spacer(modifier = Modifier.height(8.dp))
+            Card(
+                modifier = Modifier.align(Alignment.End),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.tertiary
+                )
+            ) {
+                Text(
+                    modifier = Modifier.padding(4.dp),
+                    text = "$${item.price}",
+                    fontWeight = FontWeight.ExtraBold,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onTertiary
+                )
+            }
             Text(
                 modifier = Modifier.padding(horizontal = 8.dp),
                 text = item.title,
-                fontWeight = FontWeight.ExtraBold,
+                fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                modifier = Modifier.padding(horizontal = 8.dp),
-                text = "$${item.price}",
-                fontWeight = FontWeight.ExtraBold,
-                style = MaterialTheme.typography.bodySmall
             )
         }
     }

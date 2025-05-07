@@ -23,6 +23,12 @@ class NavActions(navController: NavHostController) {
         }
     }
 
+    val navigateToCheckout: () -> Unit = {
+        NavScreen.Checkout.apply {
+            navController.navigate(this.route)
+        }
+    }
+
     val upPress: () -> Unit = {
         navController.navigateUp()
     }
